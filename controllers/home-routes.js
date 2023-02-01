@@ -6,6 +6,16 @@ router.get("/", async (req, res) => {
     res.json(err);
   });
   const posts = postData.map((post) => post.get({ plain: true }));
-  res.render("all", { posts });
+  res.render("all", { posts, loggedIn: req.session.loggedIn });
 });
+
+router.get("/login", (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect("/");
+    return;
+  }
+
+  res.render("login");
+});
+
 module.exports = router;
